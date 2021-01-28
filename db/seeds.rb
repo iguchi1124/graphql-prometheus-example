@@ -6,8 +6,8 @@ users = 10.times.map do |i|
   user
 end
 
-users.each do |user|
-  3.times do |i|
+articles = users.flat_map do |user|
+  3.times.map do |i|
     article = user.articles.find_or_initialize_by(slug: "lorem_ipsum_#{user.id}_#{i}")
     article.title = "Lorem Ipsum"
     article.body = <<~BODY
@@ -17,5 +17,12 @@ users.each do |user|
       Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     BODY
     article.save!
+    article
   end
+end
+
+articles.to_a.product(users).map do |article, user|
+  comment = article.comments.find_or_initialize_by(user: user)
+  comment.body = "comment from #{user.username}"
+  comment.save!
 end
