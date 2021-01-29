@@ -5,7 +5,7 @@ module Types
     end
 
     def user(id:)
-      User.find(id)
+      UserLoader.load(id).first
     end
 
     field :article, ArticleType, null: true do
@@ -13,7 +13,7 @@ module Types
     end
 
     def article(id:)
-      Article.find(id)
+      ArticleLoader.load(id).first
     end
 
     field :articles, [ArticleType], null: true do
@@ -22,9 +22,7 @@ module Types
     end
 
     def articles(limit:, cursor: nil)
-      articles = Article.all
-      articles = articles.where('id > ?', cursor) if cursor
-      articles.limit(limit)
+      ArticleCursorLoader.load(cursor: cursor, limit: limit)
     end
   end
 end
