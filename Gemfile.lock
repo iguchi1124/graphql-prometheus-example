@@ -87,6 +87,9 @@ GEM
       railties
       sprockets-rails
     graphql (1.12.3)
+    graphql-metrics (4.0.6)
+      concurrent-ruby (~> 1.1.0)
+      graphql (>= 1.10.8)
     i18n (1.8.7)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -216,6 +219,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   graphiql-rails
   graphql
+  graphql-metrics
   jbuilder (~> 2.7)
   listen (~> 3.3)
   mysql2
