@@ -106,7 +106,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
     minitest (5.14.3)
-    msgpack (1.4.1)
+    msgpack (1.4.2)
     mysql2 (0.5.3)
     nio4r (2.5.4)
     nokogiri (1.11.1)
@@ -232,8 +232,5 @@ DEPENDENCIES
   webdrivers
   webpacker (~> 5.0)
 
-RUBY VERSION
-   ruby 2.7.0p0
-
 BUNDLED WITH
-   2.1.4
+   2.2.8
