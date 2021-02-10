@@ -27,5 +27,13 @@ services:
   redis:
     image: redis:6.0
 
+  prometheus:
+    build:
+      context: ./docker/prometheus
+    volumes:
+      - prometheus-data:/prometheus
+    ports:
+      - '9090:9090'
+
 volumes:
-  data:
+  prometheus-data:

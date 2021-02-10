@@ -6,6 +6,9 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require 'prometheus/middleware/collector'
+require 'prometheus/middleware/exporter'
+
 module Example
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -18,5 +21,8 @@ module Example
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.middleware.use Prometheus::Middleware::Collector
+    config.middleware.use Prometheus::Middleware::Exporter
   end
 end
