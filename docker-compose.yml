@@ -3,11 +3,11 @@ version: '3.8'
 services:
   app:
     build: .
-    command: bin/rails s -b 0.0.0.0 -p 8080
+    command: bin/rails s -b 0.0.0.0
     stdin_open: true
     tty: true
     ports:
-      - '8080:8080'
+      - '3000:3000'
     environment:
       DATABASE_URL: 'mysql2://mysql:3306/'
       REDIS_URL: 'redis://redis:6379/1'
@@ -22,7 +22,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
-      - ./tmp/mysql:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
 
   redis:
     image: redis:6.0
@@ -30,10 +30,13 @@ services:
   prometheus:
     build:
       context: ./docker/prometheus
+    depends_on:
+      - app
     volumes:
       - prometheus-data:/prometheus
     ports:
       - '9090:9090'
 
 volumes:
+  mysql-data:
   prometheus-data:

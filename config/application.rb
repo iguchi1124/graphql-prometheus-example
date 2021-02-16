@@ -24,5 +24,8 @@ module Example
 
     config.middleware.use Prometheus::Middleware::Collector
     config.middleware.use Prometheus::Middleware::Exporter
+
+
+    config.hosts << 'app'
   end
 end
