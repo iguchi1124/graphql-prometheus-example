@@ -37,3 +37,4 @@ gem 'graphql-metrics', require: 'graphql/metrics'
 
 gem 'prometheus-client'
 gem 'dataloader'
+gem 'concurrent-ruby', require: 'concurrent'

@@ -8,10 +8,8 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    user_loader = Dataloader.new { |ids| User.where(id: ids).to_a }
-    article_loader = Dataloader.new { |ids| Article.where(id: ids).to_a }
-    comment_loader = Dataloader.new { |ids| Comment.where(id: ids).to_a }
-    context = { current_user: current_user, user_loader: user_loader, article_loader: article_loader, comment_loader: comment_loader }
+    context = { current_user: current_user }
+    context.merge!(loaders)
     result = Schema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue => e
@@ -46,5 +44,17 @@ class GraphqlController < ApplicationController
     logger.error e.backtrace.join("\n")
 
     render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+  end
+
+  def loaders
+    user_loader = Dataloader.new(cache: Concurrent::Map.new) { |ids| User.where(id: ids).to_a }
+    article_loader = Dataloader.new(cache: Concurrent::Map.new) { |ids| Article.where(id: ids).to_a }
+    comment_loader = Dataloader.new(cache: Concurrent::Map.new) { |ids| Comment.where(id: ids).to_a }
+
+    {
+      user_loader: user_loader,
+      article_loader: article_loader,
+      comment_loader: comment_loader,
+    }
   end
 end
