@@ -8,7 +8,10 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = { current_user: current_user }
+    user_loader = Dataloader.new { |ids| User.where(id: ids).to_a }
+    article_loader = Dataloader.new { |ids| Article.where(id: ids).to_a }
+    comment_loader = Dataloader.new { |ids| Comment.where(id: ids).to_a }
+    context = { current_user: current_user, user_loader: user_loader, article_loader: article_loader, comment_loader: comment_loader }
     result = Schema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue => e

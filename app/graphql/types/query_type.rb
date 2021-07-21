@@ -5,7 +5,7 @@ module Types
     end
 
     def user(id:)
-      UserLoader.load(id).first
+      context[:user_loader].load(id)
     end
 
     field :article, ArticleType, null: true do
@@ -13,7 +13,7 @@ module Types
     end
 
     def article(id:)
-      ArticleLoader.load(id).first
+      context[:article_loader].load(id)
     end
 
     field :articles, [ArticleType], null: true do
@@ -22,7 +22,11 @@ module Types
     end
 
     def articles(limit: 10, cursor: nil)
-      ArticleCursorLoader.load(cursor: cursor, limit: limit)
+      articles = Article.all
+      articles = articles.where('id > ?', cursor) if cursor
+      articles = articles.limit(limit)
+      ids = articles.pluck(:id)
+      context[:article_loader].load_many(ids)
     end
   end
 end

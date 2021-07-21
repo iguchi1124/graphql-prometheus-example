@@ -36,3 +36,4 @@ gem 'graphiql-rails', group: :development
 gem 'graphql-metrics', require: 'graphql/metrics'
 
 gem 'prometheus-client'
+gem 'dataloader'
