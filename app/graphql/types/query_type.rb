@@ -18,10 +18,10 @@ module Types
 
     field :articles, [ArticleType], null: true do
       argument :cursor, ID, required: false
-      argument :limit, Integer, required: true
+      argument :limit, Integer, required: false
     end
 
-    def articles(limit:, cursor: nil)
+    def articles(limit: 10, cursor: nil)
       ArticleCursorLoader.load(cursor: cursor, limit: limit)
     end
   end
