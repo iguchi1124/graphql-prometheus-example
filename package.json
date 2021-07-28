@@ -8,6 +8,9 @@
     "@rails/webpacker": "5.4.0",
     "turbolinks": "^5.2.0"
   },
+  "resolutions": {
+    "@rails/webpacker/webpack/watchpack/watchpack-chokidar2/chokidar/glob-parent": "^5.1.2"
+  },
   "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "^3.11.2"
