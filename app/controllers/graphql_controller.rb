@@ -1,4 +1,4 @@
-class GraphqlController < ApplicationController
+class GraphqlController < ActionController::API
   # If accessing from outside this domain, nullify the session
   # This allows for outside API access while preventing CSRF attacks,
   # but you'll have to authenticate your user separately
@@ -8,7 +8,7 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = { current_user: current_user }
+    context = {}
     context.merge!(loaders)
     result = Schema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
